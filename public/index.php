@@ -100,7 +100,6 @@ if (isset($_SESSION['usuario'])) {
             } catch (PDOException $e) {
                 $perfilModificado = false;
                 echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
-                die;
             }
         }
     } elseif (isset($_SESSION['partida'])) {
