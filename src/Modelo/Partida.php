@@ -73,8 +73,8 @@ class Partida {
      */
     public function __construct(IAlmacenPalabras $almacen = null, AnalizadorComplejidad $analizadorComplejidad = null, string $complejidad = null, int $maxNumErrores = null) {
         if (func_num_args() > 0) {
-            $rango = implode(range(explode('-', "$complejidad-$complejidad")[0], 
-                    explode('-', "$complejidad-$complejidad")[1]));
+            $rango = implode(range(explode('-', "$complejidad-$complejidad", 2)[0], 
+                    explode('-', "$complejidad-$complejidad", 2)[1]));
             $encontrado = false;
             while (!$encontrado){
                 $palabra = strtoupper($almacen->obtenerPalabraAleatoria());
