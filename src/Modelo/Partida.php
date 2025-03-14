@@ -76,12 +76,13 @@ class Partida {
             $encontrado = false;
             while (!$encontrado){
                 $palabra = strtoupper($almacen->obtenerPalabraAleatoria());
-                if ($analizadorComplejidad->complejidadPalabra($palabra) == 0) {
+                $complejidadPalabra = $analizadorComplejidad->complejidadPalabra($palabra);
+                if ($complejidadPalabra == 0) {
                     $encontrado = true;
                 }
             }
             $this->setPalabraSecreta($palabra);
-            $this->setComplejidad = $complejidad;
+            $this->setComplejidad($complejidadPalabra);
             // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
             $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
             $this->setMaxNumErrores($maxNumErrores);

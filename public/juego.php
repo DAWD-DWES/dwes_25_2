@@ -89,10 +89,10 @@ if (isset($_SESSION['usuario'])) {
             'Default' => '0'
         };
         $partida = new Partida($almacenPalabras, $analizadorComplejidad, $complejidad, MAX_NUM_ERRORES);
-        $_SESSION['partida'] = $partida;
         $partida->setIdUsuario($usuario->getId());
         $partidaId = $partidaDAO->crea($partida);
         $partida->setId($partidaId);
+        $_SESSION['partida'] = $partida;
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
         // Si no si se resuelve la partida con una palabra
