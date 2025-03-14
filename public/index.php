@@ -73,7 +73,6 @@ if (isset($_SESSION['usuario'])) {
         $usuario = $_SESSION['usuario'];
         echo $blade->run("formperfil", ['usuario' => $usuario, 
             'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail()]);
-        die;
     } elseif (filter_has_var(INPUT_POST, 'botonprocperfil')) {
         $usuario = $_SESSION['usuario'];
         $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_UNSAFE_RAW));
@@ -84,7 +83,6 @@ if (isset($_SESSION['usuario'])) {
         $errorEmail = empty($email) || !esEmailValido($email);
         if ($errorNombre || $errorPassword || $errorEmail) {
             echo $blade->run("formperfil", compact('usuario', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-            die;
         } else {
             $usuario->setNombre($nombre);
             $usuario->setClave($clave);
@@ -95,10 +93,8 @@ if (isset($_SESSION['usuario'])) {
             } catch (PDOException $e) {
                 $perfilModificado = false;
                 echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-                die();
             }
             echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-            die;
         }
     } elseif (isset($_SESSION['partida'])) {
         header("Location:juego.php");
@@ -127,12 +123,10 @@ if (isset($_SESSION['usuario'])) {
         else {
 // Invoco la vista del formulario de login con el flag de error activado
             echo $blade->run("formlogin", ['error' => true]);
-            die;
         }
 // En cualquier otro caso
     } else {
 // Invoco la vista del formulario de login
         echo $blade->run("formlogin");
-        die;
     }
 }
