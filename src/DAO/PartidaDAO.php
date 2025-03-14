@@ -23,7 +23,7 @@ class PartidaDAO {
         $this->bd = $bd;
     }
 
-    public function crea(Partida $partida): bool {
+    public function crea(Partida $partida): int | bool {
         $sql = "INSERT INTO partidas (numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, inicio, fin, idUsuario) VALUES (:numErrores, :palabraSecreta, :palabraDescubierta, :letras, :maxNumErrores, FROM_UNIXTIME(:inicio), FROM_UNIXTIME(:fin), :idUsuario)";
         $stmt = $this->bd->prepare($sql);
 
@@ -38,14 +38,8 @@ class PartidaDAO {
             ':fin' => $partida->getFin(),
             ':idUsuario' =>  $partida->getIdUsuario()
         ];
-
         $result = $stmt->execute($params);
-
-        if ($result) {
-            // Asigna el ID generado por la inserción al objeto Hangman
-            $partida->setId($this->bd->lastInsertId());
-        }
-        return $result;
+        return ($result ? $this->bd->lastInsertId() : false);
     }
 
     public function modifica(Partida $partida): bool {
