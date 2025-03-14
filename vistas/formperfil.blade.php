@@ -2,7 +2,6 @@
 @extends('app')
 {{-- Sección aporta el título de la página --}}
 @section('title', 'Formulario perfil')
-{{-- Sección aporta el título de la página --}}
 {{-- Sección muestra el formulario de perfil del usuario --}}
 @section('content')
 <div class="container col-md-8">

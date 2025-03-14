@@ -92,6 +92,7 @@ if (isset($_SESSION['usuario'])) {
             $usuario->setClave($clave);
             $usuario->setEmail($email);
             $usuario->setNivel(Nivel::fromString($nivel));
+            $_SESSION['usuario'] = $usuario;
             try {
                 $usuarioDAO->modifica($usuario);
                 $perfilModificado = true;

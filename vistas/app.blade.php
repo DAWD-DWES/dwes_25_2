@@ -10,7 +10,7 @@
     <body>
         <nav class="navbar navbar-expand-sm navbar-light bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="juego.php?botonnuevapartida">
+                <a class="navbar-brand" href="juego.php">
                     <img src="assets/img/logo.png" alt="" width="30" height="24">
                     Ahorcado
                 </a>
