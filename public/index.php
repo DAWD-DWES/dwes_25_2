@@ -73,7 +73,8 @@ if (isset($_SESSION['usuario'])) {
         $usuario = $_SESSION['usuario'];
         $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());
         echo $blade->run("formperfil", ['usuario' => $usuario, 'nivelOpciones' => $nivelOpciones,
-            'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail()]);
+            'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail(), 
+            'nivel' => ($usuario->getNivel())->value]);
     } elseif (filter_has_var(INPUT_POST, 'botonprocperfil')) {
         $usuario = $_SESSION['usuario'];
         $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());

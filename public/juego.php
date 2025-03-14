@@ -35,7 +35,7 @@ use App\Servicios\AnalizadorComplejidad;
 session_start();
 
 define("MAX_NUM_ERRORES", 5);
-define("USUARIOCOMPLEJIDAD", ['Principiante' => '0-1', 'Intermedio' => '2-3', 'Avanzado' => '4']);
+define("USUARIO_COMPLEJIDAD", ['Principiante' => '0-1', 'Intermedio' => '2-3', 'Avanzado' => '4']);
 
 $views = __DIR__ . '/../vistas';
 $cache = __DIR__ . '/../cache';
@@ -82,12 +82,13 @@ if (isset($_SESSION['usuario'])) {
         $analizadorComplejidad = new AnalizadorComplejidad();
         $rutaFichero = $_ENV['RUTA_ALMACEN_PALABRAS'];
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
-        $complejidad = match ($usuario->getNivel()->value) {
+       /* $complejidad = match ($usuario->getNivel()->value) {
             'Principiante' => '0-1',
             'Intermedio' => '1-2',
             'Avanzado' => '3-4',
             'Default' => '0'
-        };
+        }; */
+        $complejidad = USUARIO_COMPLEJIDAD[$usuario->getNivel()->value];
         $partida = new Partida($almacenPalabras, $analizadorComplejidad, $complejidad, MAX_NUM_ERRORES);
         $partida->setIdUsuario($usuario->getId());
         $partidaId = $partidaDAO->crea($partida);

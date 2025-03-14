@@ -51,7 +51,6 @@
                     <label for="nivel" class="col-sm-2 col-form-label">Nivel</label>
                     <div class="col-sm-10">
                         <select class="form-control col-sm-10" name="nivel" id="nivel">
-                            <option disabled selected>Nivel</option>
                             @foreach ($nivelOpciones as $nivelOpcion)
                             <option value="{{ $nivelOpcion }}" {{ (isset($nivel) && $nivel === $nivelOpcion) ? 'selected' : '' }}>{{ $nivelOpcion }}</option>
                             @endforeach
