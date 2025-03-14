@@ -35,9 +35,10 @@ class UsuarioDAO {
      * @returns bool Resultado de la operación de actualización
      */
     public function modifica($usuario) {
-        $sql = "update usuarios set nombre = :nombre, clave = :clave, email = :email where id = :id";
+        $sql = "update usuarios set nombre = :nombre, clave = :clave, email = :email, nivel = :nivel where id = :id";
         $sth = $this->bd->prepare($sql);
-        $result = $sth->execute([":nombre" => $usuario->getNombre(), ":clave" => $usuario->getClave(), ":email" => $usuario->getEmail(), ":id" => $usuario->getId()]);
+        $result = $sth->execute([":nombre" => $usuario->getNombre(), ":clave" => $usuario->getClave(), 
+            ":email" => $usuario->getEmail(), ":nivel" => ($usuario->getNivel())->value, ":id" => $usuario->getId()]);
         return ($result);
     }
 

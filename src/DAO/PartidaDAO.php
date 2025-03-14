@@ -24,7 +24,7 @@ class PartidaDAO {
     }
 
     public function crea(Partida $partida): bool {
-        $sql = "INSERT INTO partidas (numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, inicio, fin, idUsuario) VALUES (:numErrores, :palabraSecreta, :palabraDescubierta, :letras, :maxNumErrores, FROM_UNIXTIME(:inicio), FROM_UNIXTIME(:fin), :idUsuario)";
+        $sql = "INSERT INTO partidas (numErrores, palabraSecreta, palabraDescubierta, letras, maxNumErrores, inicio, fin, complejidad, idUsuario) VALUES (:numErrores, :palabraSecreta, :palabraDescubierta, :letras, :maxNumErrores, FROM_UNIXTIME(:inicio), FROM_UNIXTIME(:fin), :complejidad, :idUsuario)";
         $stmt = $this->bd->prepare($sql);
 
         // Creando un array de parámetros
@@ -36,20 +36,15 @@ class PartidaDAO {
             ':maxNumErrores' => $partida->getMaxNumErrores(),
             ':inicio' => $partida->getInicio(),
             ':fin' => $partida->getFin(),
+            ':complejidad' => $partida->getComplejidad(),
             ':idUsuario' =>  $partida->getIdUsuario()
         ];
-
         $result = $stmt->execute($params);
-
-        if ($result) {
-            // Asigna el ID generado por la inserción al objeto Hangman
-            $partida->setId($this->bd->lastInsertId());
-        }
-        return $result;
+        return ($result ? $this->bd->lastInsertId() : false);
     }
 
     public function modifica(Partida $partida): bool {
-        $sql = "UPDATE partidas SET numErrores = :numErrores, palabraSecreta = :palabraSecreta, palabraDescubierta = :palabraDescubierta, letras = :letras, maxNumErrores = :maxNumErrores, inicio = FROM_UNIXTIME(:inicio), fin = FROM_UNIXTIME(:fin) WHERE id = :id";
+        $sql = "UPDATE partidas SET numErrores = :numErrores, palabraSecreta = :palabraSecreta, palabraDescubierta = :palabraDescubierta, letras = :letras, maxNumErrores = :maxNumErrores, inicio = FROM_UNIXTIME(:inicio), fin = FROM_UNIXTIME(:fin), complejidad = :complejidad WHERE id = :id";
         $stmt = $this->bd->prepare($sql);
 
         // Creando un array de parámetros
@@ -61,6 +56,7 @@ class PartidaDAO {
             ':letras' => $partida->getLetras(),
             ':maxNumErrores' => $partida->getMaxNumErrores(),
             ':inicio' => $partida->getInicio(),
+            ':complejidad' => $partida->getComplejidad(),
             ':fin' => $partida->getFin()
         ];
 

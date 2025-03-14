@@ -3,6 +3,7 @@
 namespace App\Modelo;
 
 use App\Almacen\IAlmacenPalabras;
+use App\Servicios\AnalizadorComplejidad;
 use DateTime;
 
 /**
@@ -58,6 +59,11 @@ class Partida {
     private ?int $idUsuario = null;
 
     /**
+     * @var int $Complejidad Complejidad de la palabra de la partida
+     */
+    private int $complejidad;
+
+    /**
      * Constructor de la clase Partida
      * 
      * @param AlmacenPalabrasInterface $almacen Almacen de donde obtener palabras para el juego
@@ -65,9 +71,17 @@ class Partida {
      * 
      * @returns Partida
      */
-    public function __construct(IAlmacenPalabras $almacen = null, int $maxNumErrores = null) {
+    public function __construct(IAlmacenPalabras $almacen = null, AnalizadorComplejidad $analizadorComplejidad = null, string $complejidad = null, int $maxNumErrores = null) {
         if (func_num_args() > 0) {
-            $this->setPalabraSecreta(strtoupper($almacen->obtenerPalabraAleatoria()));
+            $encontrado = false;
+            while (!$encontrado){
+                $palabra = strtoupper($almacen->obtenerPalabraAleatoria());
+                if ($analizadorComplejidad->complejidadPalabra($palabra) == 0) {
+                    $encontrado = true;
+                }
+            }
+            $this->setPalabraSecreta($palabra);
+            $this->setComplejidad = $complejidad;
             // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
             $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
             $this->setMaxNumErrores($maxNumErrores);
@@ -257,6 +271,26 @@ class Partida {
      */
     public function setIdUsuario(int $idUsuario): void {
         $this->idUsuario = $idUsuario;
+    }
+    
+    /**
+     * Recupera el valor de la complejidad de la palabra
+     * 
+     * @returns int Complejidad de la palabra
+     */
+    public function getComplejidad(): ?int {
+        return $this->complejidad;
+    }
+
+    /**
+     * Establece el valor de la complejidad de la palabra
+     * 
+     * @param int $complejidad complejidad de la palabra
+     * 
+     * @returns void
+     */
+    public function setComplejidad(int $complejidad): void {
+        $this->complejidad = $complejidad;
     }
 
     /**

@@ -10,10 +10,9 @@ interface IAlmacenPalabras {
 
     /**
      * Obtiene una palabra aleatoria
-     * 
+     * $complejidad int Complejidad de la palabra (escala 0..4)
      * 
      * @returns string Palabra aleatoria
      */
     public function obtenerPalabraAleatoria(): string;
 }
-

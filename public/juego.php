@@ -30,11 +30,12 @@ use App\BD\BD;
 use App\Modelo\Partida;
 use App\Almacen\AlmacenPalabrasFichero;
 use App\DAO\PartidaDAO;
+use App\Servicios\AnalizadorComplejidad;
 
 session_start();
 
 define("MAX_NUM_ERRORES", 5);
-
+define("USUARIOCOMPLEJIDAD", ['Principiante' => '0-1', 'Intermedio' => '2-3', 'Avanzado' => '4']);
 
 $views = __DIR__ . '/../vistas';
 $cache = __DIR__ . '/../cache';
@@ -78,12 +79,20 @@ if (isset($_SESSION['usuario'])) {
         if ($partida && !$partida->esFin()) {
             $partidaDAO->modifica($partida);
         }
+        $analizadorComplejidad = new AnalizadorComplejidad();
         $rutaFichero = $_ENV['RUTA_ALMACEN_PALABRAS'];
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
-        $partida = new Partida($almacenPalabras, MAX_NUM_ERRORES);
+        $complejidad = match ($usuario->getNivel()->value) {
+            'Principiante' => '0-1',
+            'Intermedio' => '1-2',
+            'Avanzado' => '3-4',
+            'Default' => '0'
+        };
+        $partida = new Partida($almacenPalabras, $analizadorComplejidad, $complejidad, MAX_NUM_ERRORES);
         $_SESSION['partida'] = $partida;
         $partida->setIdUsuario($usuario->getId());
-        $partidaDAO->crea($partida);
+        $partidaId = $partidaDAO->crea($partida);
+        $partida->setId($partidaId);
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
         // Si no si se resuelve la partida con una palabra

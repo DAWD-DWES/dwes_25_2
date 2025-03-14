@@ -25,6 +25,7 @@ use eftec\bladeone\BladeOne;
 use App\BD\BD;
 use App\Modelo\Usuario;
 use App\DAO\UsuarioDAO;
+use App\Modelo\Nivel;
 
 session_start();
 
@@ -68,37 +69,37 @@ if (isset($_SESSION['usuario'])) {
         setcookie(session_name(), '', 0, '/');
 // Invoco la vista del formulario de login
         echo $blade->run("formlogin");
-        die;
     } elseif (filter_has_var(INPUT_GET, 'botonperfil')) {
         $usuario = $_SESSION['usuario'];
-        echo $blade->run("formperfil", ['usuario' => $usuario, 
+        $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());
+        echo $blade->run("formperfil", ['usuario' => $usuario, 'nivelOpciones' => $nivelOpciones,
             'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail()]);
-        die;
     } elseif (filter_has_var(INPUT_POST, 'botonprocperfil')) {
         $usuario = $_SESSION['usuario'];
+        $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());
         $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_UNSAFE_RAW));
         $clave = trim(filter_input(INPUT_POST, 'clave', FILTER_UNSAFE_RAW));
         $email = trim(filter_input(INPUT_POST, 'email', FILTER_UNSAFE_RAW));
+        $nivel = trim(filter_input(INPUT_POST, 'nivel', FILTER_UNSAFE_RAW));
         $errorNombre = empty($nombre) || !esNombreValido($nombre);
         $errorPassword = empty($clave) || !esPasswordValido($clave);
         $errorEmail = empty($email) || !esEmailValido($email);
         if ($errorNombre || $errorPassword || $errorEmail) {
-            echo $blade->run("formperfil", compact('usuario', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-            die;
+            echo $blade->run("formperfil", compact('usuario', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
         } else {
             $usuario->setNombre($nombre);
             $usuario->setClave($clave);
             $usuario->setEmail($email);
+            $usuario->setNivel(Nivel::fromString($nivel));
             try {
                 $usuarioDAO->modifica($usuario);
                 $perfilModificado = true;
+                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
             } catch (PDOException $e) {
                 $perfilModificado = false;
-                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-                die();
+                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
+                die;
             }
-            echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
-            die;
         }
     } elseif (isset($_SESSION['partida'])) {
         header("Location:juego.php");
@@ -127,12 +128,10 @@ if (isset($_SESSION['usuario'])) {
         else {
 // Invoco la vista del formulario de login con el flag de error activado
             echo $blade->run("formlogin", ['error' => true]);
-            die;
         }
 // En cualquier otro caso
     } else {
 // Invoco la vista del formulario de login
         echo $blade->run("formlogin");
-        die;
     }
 }
