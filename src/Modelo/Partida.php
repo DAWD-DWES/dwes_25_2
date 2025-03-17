@@ -73,19 +73,15 @@ class Partida {
      */
     public function __construct(IAlmacenPalabras $almacen = null, AnalizadorComplejidad $analizadorComplejidad = null, string $complejidad = null, int $maxNumErrores = null) {
         if (func_num_args() > 0) {
-            $rango = implode(range(explode('-', "$complejidad-$complejidad", 2)[0], 
-                    explode('-', "$complejidad-$complejidad", 2)[1]));
-            $encontrado = false;
-            while (!$encontrado){
+            $rango = implode(range(...(explode('-', "$complejidad-$complejidad", 2))));
+            do {
                 $palabra = strtoupper($almacen->obtenerPalabraAleatoria());
                 $complejidadPalabra = $analizadorComplejidad->complejidadPalabra($palabra);
-                if (str_contains($rango, $complejidadPalabra)) {
-                    $encontrado = true;
-                }
-            }
+            } while (!str_contains($rango, $complejidadPalabra));
+
             $this->setPalabraSecreta($palabra);
             $this->setComplejidad($complejidadPalabra);
-            // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
+// Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
             $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
             $this->setMaxNumErrores($maxNumErrores);
             $this->setInicio((new DateTime('now'))->getTimestamp());
@@ -275,7 +271,7 @@ class Partida {
     public function setIdUsuario(int $idUsuario): void {
         $this->idUsuario = $idUsuario;
     }
-    
+
     /**
      * Recupera el valor de la complejidad de la palabra
      * 
@@ -337,7 +333,7 @@ class Partida {
      * @returns bool El resultado de comparar la palabra del jugador y la palabra secreta
      */
     public function compruebaPalabra(string $palabra): bool {
-        // Compara las cadenas sin importar mayúsculas y minúsculas
+// Compara las cadenas sin importar mayúsculas y minúsculas
         $resultado = strcasecmp($palabra, $this->getPalabraSecreta()) === 0;
 
         if ($resultado) {
@@ -355,7 +351,7 @@ class Partida {
      * @returns bool Verdadero si ya ha sido descubierta y falso en caso contrario
      */
     public function esPalabraDescubierta(): bool {
-        // Si ya no hay guiones en la palabra descubierta
+// Si ya no hay guiones en la palabra descubierta
         return (!(strstr($this->getPalabraDescubierta(), "_")));
     }
 
