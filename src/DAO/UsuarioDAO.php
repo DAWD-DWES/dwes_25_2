@@ -23,7 +23,7 @@ class UsuarioDAO {
         $this->bd = $bd;
     }
 
-    public function crea(Hangman $hangman) {
+    public function crea(Usuario $usuario) {
         
     }
 
