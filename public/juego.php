@@ -67,32 +67,37 @@ if (isset($_SESSION['usuario'])) {
         if (!$error) {
             $partida->compruebaLetra(strtoupper($letra));
             if ($partida->esFin()) {
-                $partida->setFin((new DateTime('now'))->getTimestamp());
+                $partida->setFin(new DateTime('now'));
             }
             // Persito el estado de la partida
-            $partidaDAO->modifica($partida);
+            try {
+                $partidaDAO->modifica($partida);
+            } catch (PDOException $ex) {
+                error_log($ex->getMessage());
+            }
         }
 // Sigo jugando
         echo $blade->run("juego", compact('usuario', 'partida', 'error'));
 // Si no si se solicita una nueva partida
     } elseif (filter_has_var(INPUT_GET, 'botonnuevapartida')) { // Se arranca una nueva partida
-        if ($partida && !$partida->esFin()) {
-            $partidaDAO->modifica($partida);
-        }
         $analizadorComplejidad = new AnalizadorComplejidad();
         $rutaFichero = $_ENV['RUTA_ALMACEN_PALABRAS'];
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
-       /* $complejidad = match ($usuario->getNivel()->value) {
-            'Principiante' => '0-1',
-            'Intermedio' => '1-2',
-            'Avanzado' => '3-4',
-            'Default' => '0'
-        }; */
+        /* $complejidad = match ($usuario->getNivel()->value) {
+          'Principiante' => '0-1',
+          'Intermedio' => '1-2',
+          'Avanzado' => '3-4',
+          'Default' => '0'
+          }; */
         $complejidad = USUARIO_COMPLEJIDAD[$usuario->getNivel()->value];
         $partida = new Partida($almacenPalabras, $analizadorComplejidad, $complejidad, MAX_NUM_ERRORES);
         $partida->setIdUsuario($usuario->getId());
-        $partidaId = $partidaDAO->crea($partida);
-        $partida->setId($partidaId);
+        try {
+            $partidaId = $partidaDAO->crea($partida);
+            $partida->setId($partidaId);
+        } catch (PDOException $ex) {
+            error_log($ex->getMessage());
+        }
         $_SESSION['partida'] = $partida;
 // Invoco la vista del juego para empezar a jugar
         echo $blade->run("juego", compact('usuario', 'partida'));
