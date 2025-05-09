@@ -34,8 +34,8 @@ class PartidaDAO {
             ':palabraDescubierta' => $partida->getPalabraDescubierta(),
             ':letras' => $partida->getLetras(),
             ':maxNumErrores' => $partida->getMaxNumErrores(),
-            ':inicio' => $partida->getInicio(),
-            ':fin' => $partida->getFin(),
+            ':inicio' => $partida->getInicio()->getTimestamp(),
+            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null,
             ':idUsuario' =>  $partida->getIdUsuario()
         ];
         $result = $stmt->execute($params);
@@ -54,8 +54,8 @@ class PartidaDAO {
             ':palabraDescubierta' => $partida->getPalabraDescubierta(),
             ':letras' => $partida->getLetras(),
             ':maxNumErrores' => $partida->getMaxNumErrores(),
-            ':inicio' => $partida->getInicio(),
-            ':fin' => $partida->getFin()
+           ':inicio' => $partida->getInicio()->getTimestamp(),
+            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null
         ];
 
         $result = $stmt->execute($params);

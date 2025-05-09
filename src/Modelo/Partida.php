@@ -71,7 +71,7 @@ class Partida {
             // Inicializa la estado de la palabra descubierta a una secuencia de guiones, uno por letra de la palabra oculta
             $this->setPalabraDescubierta(preg_replace('/\w+?/', '_', $this->getPalabraSecreta()));
             $this->setMaxNumErrores($maxNumErrores);
-            $this->setInicio((new DateTime('now'))->getTimestamp());
+            $this->setInicio(new DateTime('now'));
         }
     }
 
@@ -195,48 +195,49 @@ class Partida {
         $this->numErrores = $numErrores;
     }
 
-    /**
-     * Recupera el timestamp del inicio de la partida
+   /**
+     * Recupera la Fecha/hora del inicio de la partida
      * 
      * 
-     * @returns int Timestamp del inicio de la partida
+     * @returns DateTime Fecha/hora del inicio de la partida
      */
-    public function getInicio(): int {
-        return $this->inicio;
+    public function getInicio(): DateTime {
+        $fecha = new DateTime();
+        return $fecha->setTimestamp($this->inicio);
     }
 
     /**
-     * Establece el timestamp del inicio de la partida
+     * Establece la Fecha/hora del inicio de la partida
      * 
-     * @param int $inicio Timestamp del inicio de la partida
+     * @param DateTime $inicio Fecha/hora del inicio de la partida
      * 
      * 
      * @returns void
      */
-    public function setInicio(int $inicio): void {
-        $this->inicio = $inicio;
+    public function setInicio(DateTime $inicio): void {
+        $this->inicio = $inicio->getTimestamp();
     }
 
     /**
-     * Recupera el timestamp del fin de la partida
-     * 
-     * 
-     * @returns int Timestamp del inicio de la partida
+     * Recupera la Fecha/hora del fin de la partida
+     *
+     *  
+     * @returns ?DateTime Fecha/hora del fin de la partida o null si no está establecida
      */
-    public function getFin(): ?int {
-        return $this->fin;
+    public function getFin(): ?DateTime {
+        return ($this->fin ? (new DateTime())->setTimestamp($this->fin) : null);
     }
 
     /**
      * Establece el timestamp del fin de la partida
      * 
-     * @param int $fin Timestamp del fin de la partida
+     * @param DateTime $fin Fecha/hora del fin de la partida
      * 
      * 
      * @returns void
      */
-    public function setFin(int $fin): void {
-        $this->fin = $fin;
+    public function setFin(DateTime $fin): void {
+        $this->fin = $fin->getTimestamp();
     }
 
     /**
