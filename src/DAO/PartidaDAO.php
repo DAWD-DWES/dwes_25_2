@@ -44,20 +44,17 @@ class PartidaDAO {
     }
 
     public function modifica(Partida $partida): bool {
-        $sql = "UPDATE partidas SET numErrores = :numErrores, palabraSecreta = :palabraSecreta, palabraDescubierta = :palabraDescubierta, letras = :letras, maxNumErrores = :maxNumErrores, inicio = FROM_UNIXTIME(:inicio), fin = FROM_UNIXTIME(:fin), complejidad = :complejidad  WHERE id = :id";
+        $sql = "UPDATE partidas SET numErrores = :numErrores, palabraDescubierta = :palabraDescubierta, letras = :letras, inicio = FROM_UNIXTIME(:inicio), fin = FROM_UNIXTIME(:fin), complejidad = :complejidad  WHERE id = :id";
         $stmt = $this->bd->prepare($sql);
 
         // Creando un array de parámetros
         $params = [
             ':id' => $partida->getId(),
             ':numErrores' => $partida->getNumErrores(),
-            ':palabraSecreta' => $partida->getPalabraSecreta(),
             ':palabraDescubierta' => $partida->getPalabraDescubierta(),
             ':letras' => $partida->getLetras(),
-            ':maxNumErrores' => $partida->getMaxNumErrores(),
             ':inicio' => $partida->getInicio()->getTimestamp(),
-            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null,
-            ':complejidad' => $partida->getComplejidad()
+            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null
         ];
 
         $result = $stmt->execute($params);
