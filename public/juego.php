@@ -83,13 +83,7 @@ if (isset($_SESSION['usuario'])) {
         $analizadorComplejidad = new AnalizadorComplejidad();
         $rutaFichero = $_ENV['RUTA_ALMACEN_PALABRAS'];
         $almacenPalabras = new AlmacenPalabrasFichero($rutaFichero);
-        /* $complejidad = match ($usuario->getNivel()->value) {
-          'Principiante' => '0-1',
-          'Intermedio' => '1-2',
-          'Avanzado' => '3-4',
-          'Default' => '0'
-          }; */
-        $complejidad = USUARIO_COMPLEJIDAD[$usuario->getNivel()->value];
+        $complejidad = USUARIO_COMPLEJIDAD[$usuario->getNivel()] ?? '0-1';
         $partida = new Partida($almacenPalabras, $analizadorComplejidad, $complejidad, MAX_NUM_ERRORES);
         $partida->setIdUsuario($usuario->getId());
         try {

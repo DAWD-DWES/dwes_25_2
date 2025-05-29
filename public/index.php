@@ -71,13 +71,13 @@ if (isset($_SESSION['usuario'])) {
         echo $blade->run("formlogin");
     } elseif (filter_has_var(INPUT_GET, 'botonperfil')) {
         $usuario = $_SESSION['usuario'];
-        $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());
+        $nivelOpciones = array_map(fn($nivel) => $nivel->value, Nivel::cases());
         echo $blade->run("formperfil", ['usuario' => $usuario, 'nivelOpciones' => $nivelOpciones,
-            'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail(), 
-            'nivel' => ($usuario->getNivel())->value]);
+            'nombre' => $usuario->getNombre(), 'clave' => $usuario->getClave(), 'email' => $usuario->getEmail(),
+            'nivel' => $usuario->getNivel()]);
     } elseif (filter_has_var(INPUT_POST, 'botonprocperfil')) {
         $usuario = $_SESSION['usuario'];
-        $nivelOpciones = array_map (fn($nivel) => $nivel->value, Nivel::cases());
+        $nivelOpciones = array_map(fn($nivel) => $nivel->value, Nivel::cases());
         $nombre = trim(filter_input(INPUT_POST, 'nombre', FILTER_UNSAFE_RAW));
         $clave = trim(filter_input(INPUT_POST, 'clave', FILTER_UNSAFE_RAW));
         $email = trim(filter_input(INPUT_POST, 'email', FILTER_UNSAFE_RAW));
@@ -91,7 +91,7 @@ if (isset($_SESSION['usuario'])) {
             $usuario->setNombre($nombre);
             $usuario->setClave($clave);
             $usuario->setEmail($email);
-            $usuario->setNivel(Nivel::fromString($nivel));
+            $usuario->setNivel($nivel);
             $_SESSION['usuario'] = $usuario;
             try {
                 $usuarioDAO->modifica($usuario);

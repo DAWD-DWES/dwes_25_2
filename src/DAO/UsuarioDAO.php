@@ -38,7 +38,7 @@ class UsuarioDAO {
         $sql = "update usuarios set nombre = :nombre, clave = :clave, email = :email, nivel = :nivel where id = :id";
         $sth = $this->bd->prepare($sql);
         $result = $sth->execute([":nombre" => $usuario->getNombre(), ":clave" => $usuario->getClave(), 
-            ":email" => $usuario->getEmail(), ":nivel" => ($usuario->getNivel())->value, ":id" => $usuario->getId()]);
+            ":email" => $usuario->getEmail(), ":nivel" => $usuario->getNivel(), ":id" => $usuario->getId()]);
         return ($result);
     }
 

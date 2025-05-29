@@ -30,7 +30,7 @@ class Usuario {
     private ?string $email;
 
     /*
-     * @var Nivel $nivel Nivel del usuario
+     * @var string $nivel Nivel del usuario
      */
     private string $nivel;
 
@@ -40,16 +40,16 @@ class Usuario {
      * @param string $nombre Nombre del usuario
      * @param string $clave Clave del usuario
      * @param string $email Email del usuario
-     * @param Nivel
+     * @param string $nivel Nivel del usuario
      * 
-     * @returns Hangman
+     * @returns Usuario
      */
     public function __construct(?string $nombre = null, ?string $clave = null, ?string $email = null, Nivel $nivel = null) {
         if (func_num_args() > 0) {
             $this->nombre = $nombre;
             $this->clave = $clave;
             $this->email = $email;
-            $this->nivel = $nivel ?? Nivel::Principiante->value;
+            $this->nivel = $nivel ?? 'Principiante';
         }
     }
 
@@ -125,10 +125,10 @@ class Usuario {
     /**
      * Recupera el nivel del usuario
      * 
-     * @returns Nivel Nivel del usuario
+     * @returns string Nivel del usuario
      */
-    public function getNivel(): Nivel {
-        return Nivel::from($this->nivel);
+    public function getNivel(): string {
+        return $this->nivel;
     }
 
     /**
@@ -138,7 +138,7 @@ class Usuario {
      * 
      * @returns void
      */
-    public function setNivel(Nivel $nivel) {
-        $this->nivel = $nivel->value;
+    public function setNivel(string $nivel) {
+        $this->nivel = $nivel;
     }
 }

@@ -67,6 +67,8 @@ class Partida {
      * Constructor de la clase Partida
      * 
      * @param AlmacenPalabrasInterface $almacen Almacen de donde obtener palabras para el juego
+     * @param AnalizadorComplejidad $analizadorComplejidad Servicio de análisis de complejidad de la partida
+     * @param int $complejidad Complejidad deseada para la palabra de la partida
      * @param int $maxNumErrores Número maximo de errores
      * 
      * @returns Partida
