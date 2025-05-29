@@ -2,7 +2,12 @@
 @extends('app')
 {{-- Sección aporta el título de la página --}}
 @section('title', 'Formulario perfil')
-{{-- Sección aporta el título de la página --}}
+{{-- Sección aporta volver a la barra de navegación --}}
+@section('navbar')
+<li class="nav-item">
+    <a class="nav-link" aria-current="page" href="juegoa.php">Volver</a>
+</li>
+@endsection
 {{-- Sección muestra el formulario de perfil del usuario --}}
 @section('content')
 <div class="container col-md-8">
