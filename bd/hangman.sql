@@ -63,8 +63,8 @@ CREATE TABLE `usuarios` (
 --
 
 INSERT INTO `usuarios` (`id`, `nombre`, `clave`, `email`, `nivel`) VALUES
-(1, 'pepe', '123456', 'pepe@pepi.es', 'Avanzado'),
-(2, 'luis', '654321', 'luis@luis.es', 'Principiante');
+(1, 'pepe', '123456', 'pepe@pepi.es', 'Principiante'),
+(2, 'luis', '654321', 'luis@luis.es', 'Avanzado');
 
 --
 -- Índices para tablas volcadas
