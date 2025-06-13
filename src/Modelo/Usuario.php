@@ -44,7 +44,7 @@ class Usuario {
      * 
      * @returns Usuario
      */
-    public function __construct(?string $nombre = null, ?string $clave = null, ?string $email = null, Nivel $nivel = null) {
+    public function __construct(string $nombre = null, string $clave = null, string $email = null, Nivel $nivel = null) {
         if (func_num_args() > 0) {
             $this->nombre = $nombre;
             $this->clave = $clave;
