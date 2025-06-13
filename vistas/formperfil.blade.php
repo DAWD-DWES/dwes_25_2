@@ -5,7 +5,7 @@
 {{-- Sección aporta volver a la barra de navegación --}}
 @section('navbar')
 <li class="nav-item">
-    <a class="nav-link" aria-current="page" href="juegoa.php">Volver</a>
+    <a class="nav-link" aria-current="page" href="juego.php">Volver</a>
 </li>
 @endsection
 {{-- Sección muestra el formulario de perfil del usuario --}}
