@@ -2,11 +2,13 @@
 
 namespace App\Modelo;
 
+use App\Modelo\Nivel;
+
 /**
  * Clase que representa al usuario que está usando la aplicación
  */
 class Usuario {
-    
+
     /**
      * @var string $id identificador del usuario
      */
@@ -27,24 +29,27 @@ class Usuario {
      */
     private ?string $email;
 
+    /*
+     * @var string $nivel Nivel del usuario
+     */
+    private string $nivel;
+
     /**
      * Constructor de la clase Usuario
      * 
      * @param string $nombre Nombre del usuario
      * @param string $clave Clave del usuario
      * @param string $email Email del usuario
+     * @param string $nivel Nivel del usuario
      * 
-     * @returns Hangman
+     * @returns Usuario
      */
-    public function __construct(?string $nombre = null, ?string $clave = null, ?string $email = null) {
-        if (!is_null($nombre)) {
+    public function __construct(string $nombre = null, string $clave = null, string $email = null, string $nivel = null) {
+        if (func_num_args() > 0) {
             $this->nombre = $nombre;
-        }
-        if (!is_null($clave)) {
             $this->clave = $clave;
-        }
-        if (!is_null($email)) {
             $this->email = $email;
+            $this->nivel = $nivel ?? 'Principiante';
         }
     }
 
@@ -116,5 +121,24 @@ class Usuario {
     public function setEmail(string $email) {
         $this->email = $email;
     }
+    
+    /**
+     * Recupera el nivel del usuario
+     * 
+     * @returns string Nivel del usuario
+     */
+    public function getNivel(): string {
+        return $this->nivel;
+    }
 
+    /**
+     * Establece el Nivel del usuario
+     * 
+     * @param string $nivel Nivel del usuario
+     * 
+     * @returns void
+     */
+    public function setNivel(string $nivel) {
+        $this->nivel = $nivel;
+    }
 }
