@@ -9,35 +9,34 @@ class AnalizadorComplejidad {
      * @param string $palabra La palabra a analizar.
      * @return int Nivel de complejidad (0-4).
      */
-    /*  function complejidadPalabra(string $palabra): int {
+    function complejidadPalabra2(string $palabra): int {
         $palabraArray = str_split($palabra);
         $longitud = strlen($palabra);
         if ($longitud > 8) {
-            if (array_intersect($palabraArray, str_split('zxqkhyw'))) {
+            if (array_intersect($palabraArray, str_split('ZXQKHYW'))) {
                 $resultado = 4;
             } else {
                 $resultado = 3;
             }
         } else {
-            if (($longitud >= 5) && (count(array_intersect($palabraArray, str_split('mntslcrbdpaeiou'))) == count($palabraArray)) &&
-                    (substr($palabra, -2) == 'ar' || substr($palabra, -2) == 'er' || substr($palabra, -2) == 'ir')) {
+            if (($longitud >= 5) && (count(array_intersect($palabraArray, str_split('MNTSLCRBDPAEIOU'))) == count($palabraArray)) &&
+                    (substr($palabra, -2) == 'AR' || substr($palabra, -2) == 'ER' || substr($palabra, -2) == 'IR')) {
                 $resultado = 0;
             } elseif ($longitud >= 1 && $longitud <= 8) {
-                foreach (str_split('aeiou') as $vocal1) {
-                    foreach (str_split('aeiou') as $vocal2) {
+                foreach (str_split('AEIOU') as $vocal1) {
+                    foreach (str_split('AEIOU') as $vocal2) {
                         $vocales[] = $vocal1 . $vocal2;
                     }
                 }
-                if (array_filter(fn($x) => strpos($palabra, $x) !== false, $vocales)) {
-                    $resultado = 1;
-                } else {
+                if (array_filter($vocales, fn($x) => strpos($palabra, $x) !== false)) {
                     $resultado = 2;
+                } else {
+                    $resultado = 1;
                 }
             }
         }
         return $resultado;
     }
-     */
 
     function complejidadPalabra(string $palabra): int {
         $longitud = strlen($palabra);
@@ -50,9 +49,9 @@ class AnalizadorComplejidad {
             ($longitud >= 1 && $longitud <= 8) => 2,
             // Regla 3: Más de 8 letras sin z, x, q, k, h, y, w
             ($longitud > 8 && !preg_match('/[zxqkhyw]/i', $palabra)) => 3,
+            // Regla 4: Cualquier palabra que no cumpla las reglas anteriores
             default => 4
         };
-        // Regla 4: Cualquier palabra que no cumpla las reglas anteriores
         return $resultado;
     }
 }
