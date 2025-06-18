@@ -19,7 +19,8 @@ class AnalizadorComplejidad {
                 $resultado = 3;
             }
         } else {
-            if (($longitud >= 5) && (count(array_intersect($palabraArray, str_split('MNTSLCRBDPAEIOU'))) == count($palabraArray)) &&
+            $palabraUnicas = array_unique($palabraArray);
+            if (($longitud >= 5) && (count(array_intersect($palabraUnicas, str_split('MNTSLCRBDPAEIOU'))) == count($palabraUnicas)) &&
                     (substr($palabra, -2) == 'AR' || substr($palabra, -2) == 'ER' || substr($palabra, -2) == 'IR')) {
                 $resultado = 0;
             } elseif ($longitud >= 1 && $longitud <= 8) {
