@@ -54,7 +54,8 @@ class PartidaDAO {
             ':palabraDescubierta' => $partida->getPalabraDescubierta(),
             ':letras' => $partida->getLetras(),
             ':inicio' => $partida->getInicio()->getTimestamp(),
-            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null
+            ':fin' => $partida->getFin() ? $partida->getFin()->getTimestamp() : null,
+            ':complejidad' => $partida->getComplejidad()
         ];
 
         $result = $stmt->execute($params);
