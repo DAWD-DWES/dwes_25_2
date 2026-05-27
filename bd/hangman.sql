@@ -55,7 +55,7 @@ CREATE TABLE `usuarios` (
   `nombre` varchar(60) NOT NULL,
   `clave` varchar(20) NOT NULL,
   `email` varchar(60) DEFAULT NULL,
-  `nivel` enum('Principiante','Intermedio','Avanzado') NOT NULL DEFAULT 'Principiante'
+  `nivel` enum('Principiante','Intermedio','Avanzado') NULL DEFAULT 'Principiante'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 --

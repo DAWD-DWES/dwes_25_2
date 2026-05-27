@@ -96,11 +96,10 @@ if (isset($_SESSION['usuario'])) {
             try {
                 $usuarioDAO->modifica($usuario);
                 $perfilModificado = true;
-                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
             } catch (PDOException $e) {
                 $perfilModificado = false;
-                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
             }
+            echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nivelOpciones', 'nombre', 'clave', 'email', 'nivel', 'errorNombre', 'errorPassword', 'errorEmail'));
         }
     } elseif (isset($_SESSION['partida'])) {
         header("Location:juego.php");

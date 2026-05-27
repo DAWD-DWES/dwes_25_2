@@ -32,7 +32,7 @@ class Usuario {
     /*
      * @var string $nivel Nivel del usuario
      */
-    private string $nivel;
+    private ?string $nivel;
 
     /**
      * Constructor de la clase Usuario
@@ -127,7 +127,7 @@ class Usuario {
      * 
      * @returns string Nivel del usuario
      */
-    public function getNivel(): string {
+    public function getNivel(): ?string {
         return $this->nivel;
     }
 
@@ -138,7 +138,7 @@ class Usuario {
      * 
      * @returns void
      */
-    public function setNivel(string $nivel) {
+    public function setNivel(?string $nivel) {
         $this->nivel = $nivel;
     }
 }
