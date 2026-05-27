@@ -92,7 +92,6 @@ if (isset($_SESSION['usuario'])) {
                 $perfilModificado = true;
             } catch (PDOException $e) {
                 $perfilModificado = false;
-                echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
             }
             echo $blade->run("formperfil", compact('usuario', 'perfilModificado', 'nombre', 'clave', 'email', 'errorNombre', 'errorPassword', 'errorEmail'));
         }
